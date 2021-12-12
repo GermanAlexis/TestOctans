@@ -1,0 +1,55 @@
+<div class="app-modal">
+  <div class="close_btn">
+    <button mat-icon-button aria-label="close dialog" mat-dialog-close>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="modal__header">
+    <mat-card-title>Gestión del usuario</mat-card-title>
+    <mat-card-subtitle>Formulario de creación, edicion o eliminación de usuarios</mat-card-subtitle>
+  </div>
+  <p *ngIf="error" class="error_txt">{{errorMsg}}</p>
+  <form [formGroup]="userForm">
+    <mat-form-field *ngIf="this.data !== null" appearance="outline" class="full_width_input">
+      <mat-label>ID del usuario (solo lectura)</mat-label>
+      <input type="text" placeholder="ID del usuario" aria-label="Id" matInput formControlName="id" readonly>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full_width_input">
+      <mat-label>Ingrese el nombre</mat-label>
+      <input type="text" placeholder="Nombre del usuario" aria-label="Name" matInput formControlName="name">
+    </mat-form-field>
+
+     <mat-form-field appearance="outline">
+       <mat-label>Selccione un rol</mat-label>
+       <mat-select formControlName="role">
+         <mat-option [value]="null">
+           Rol del usuario
+         </mat-option>
+         <mat-option *ngFor="let rol of roles" [value]="rol.id">
+           {{rol.nombre}}
+         </mat-option>
+       </mat-select>
+     </mat-form-field>
+
+     <mat-radio-group aria-label="Activo" formControlName="activo">
+       <mat-label>
+         <span style="font-weight: bold;">Usuario activo</span>
+       </mat-label>
+       <mat-radio-button value="S">Si</mat-radio-button>
+       <mat-radio-button value="N">No</mat-radio-button>
+     </mat-radio-group>
+  </form>
+
+
+  <div class="modal-footer" style="margin-bottom: 0;">
+    <ng-container *ngIf="data !== null">
+      <button  style="background-color: #F44336;" mat-flat-button color="primary">Eliminar</button>
+      <button  mat-flat-button color="primary" [disabled]="!userForm.valid">Editar</button>
+    </ng-container>
+    <ng-container *ngIf="data === null">
+      <button  mat-stroked-button color="primary">Cancelar</button>
+      <button  mat-flat-button color="primary" [disabled]="!userForm.valid">Guardar</button>
+    </ng-container>
+  </div>
+</div>

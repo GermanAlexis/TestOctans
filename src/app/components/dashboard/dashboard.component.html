@@ -1,0 +1,84 @@
+<div class="main">
+  <mat-card>
+    <div class="header">
+      <div>
+        <mat-card-title>Gestión de usuarios</mat-card-title>
+        <mat-card-subtitle>Busqueda de usuarios por nombre</mat-card-subtitle>
+      </div>
+      <button mat-raised-button color="primary" (click)="openModalUser(null)">Crear nuevo usuario</button>
+    </div>
+
+
+    <form  [formGroup]="searchedUser" (ngSubmit)="searchUser(null)">
+      <div class="search">
+        <div class="example-form">
+          <mat-form-field appearance="outline" class="full_width_input">
+            <mat-label>Nombre de usuario</mat-label>
+            <input type="text" id="userSearch" placeholder="Ingrese un nombre para la busqueda" aria-label="Number"
+              matInput formControlName="nameUser" [matAutocomplete]="auto">
+            <mat-icon (click)="cleanSearchBar()" class="clean_icon" matSuffix>close</mat-icon>
+            <mat-autocomplete #auto="matAutocomplete" (optionSelected)="searchUser($event.option)">
+              <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                {{option}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <button mat-fab color="primary" type="submit" aria-label="search">
+          <mat-icon>search</mat-icon>
+        </button>
+      </div>
+    </form>
+
+    <ng-container *ngIf="loadingUsers">
+      <div class="loading_gif">
+        <mat-spinner></mat-spinner>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="!loadingUsers && users > 0">
+      <p>No se encontraron usuarios registrados</p>
+    </ng-container>
+
+    <div class="users_table" *ngIf="!loadingUsers && users > 0">
+      <table mat-table [dataSource]="dataSource">
+
+        <ng-container matColumnDef="id">
+          <th style="width: 20%;" mat-header-cell *matHeaderCellDef> ID </th>
+          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="nombre">
+          <th style="width: 40%;" mat-header-cell *matHeaderCellDef> Nombre </th>
+          <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="activo">
+          <th style="width: 10%;" mat-header-cell *matHeaderCellDef> Activo </th>
+          <td mat-cell *matCellDef="let element">
+            <ng-container *ngIf="element.activo === 'S'">
+              <svg height="30" width="30" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="30" cy="50" r="30" fill="#4CAF50" />
+              </svg>
+            </ng-container>
+            <ng-container *ngIf="element.activo !== 'S'">
+              <svg height="30" width="30" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="30" cy="50" r="30" fill="#F44336" />
+              </svg>
+            </ng-container>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="rol_id">
+          <th style="width: 30%;" mat-header-cell *matHeaderCellDef> Rol </th>
+          <td mat-cell *matCellDef="let element"> {{element.rol_id.nombre}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row (click)="openModalUser(row)" *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+      </mat-paginator>
+    </div>
+  </mat-card>
+</div>

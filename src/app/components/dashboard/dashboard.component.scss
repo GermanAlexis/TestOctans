@@ -1,0 +1,169 @@
+$guion-fondo: #f2f5f7;
+$primary: #03A9F4;
+
+.main {
+  width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden !important;
+  background-color: #fafafa;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+
+  .mat-card {
+    margin: 10vh 0;
+    width: 80%;
+    padding: 30px 24px;
+
+    .header{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+
+        button{
+            padding: 2px 16px;
+            background-color: $primary;
+            margin-bottom: 12px;
+        }
+    }
+
+    .search{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+
+        .full_width_input{
+          width: 100%;
+          margin-top: 12px;
+        }
+
+        button {
+          background-color: $primary;
+          margin-bottom: 12px;
+          margin-left: 24px;
+        }
+    }
+
+    .example-form{
+        width: 100%;
+    }
+
+    /* width */
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+      background: #555;
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+      background: #c8ced3;
+      height: 50px;
+      width: 5px;
+      border-radius: 5px;
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+
+    .mat-card-title {
+      color: $primary;
+    }
+
+    .clean_icon {
+      cursor: pointer;
+    }
+
+    ::ng-deep .mat-form-field.mat-focused .mat-form-field-outline {
+      color: $primary !important;
+    }
+
+    ::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+      color: $primary !important;
+    }
+
+    .loading_gif{
+      margin: 32px 0;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      ::ng-deep .mat-progress-spinner circle,
+      .mat-spinner circle {
+        stroke: $primary;
+      }
+    }
+
+    .users_table{
+        width: 100%;
+
+        table{
+            border-radius: 5px;
+            border: 1px solid rgba(0, 0, 0, .12);
+            width: 100%;
+
+            .mat-table thead {
+              border-radius: 5px;
+            }
+        }
+        
+        ::ng-deep .mat-paginator-outer-container {
+            margin-top: 12px !important;
+        }
+
+        tr.mat-header-row {
+            border-radius: 5px !important;
+        }
+
+        .activo {
+          min-width: 20px;
+          min-height: 20px;
+          border-radius: 10px;
+        }
+
+        .mat-row  {
+            border-radius: 5px;
+            .mat-cell{
+                border-top: 1px solid transparent;
+                border-bottom: 1px solid transparent;
+                cursor: pointer;
+            }
+
+            .mat-cell:first-child{
+                border-left: 1px solid transparent;
+                border-radius: 5px 0 0 5px;
+            }
+
+            .mat-cell:last-child {
+              border-right: 1px solid transparent;
+              border-radius: 0 5px 5px 0;
+            }
+          
+        }
+
+        .mat-row:hover .mat-cell {
+          border-color: $primary;
+        }
+    }
+  }
+}
+
+button {
+  background-color: $primary;
+}
+
+@media (max-width: 540px) {
+    .header{
+        flex-direction: column !important;
+    }
+}

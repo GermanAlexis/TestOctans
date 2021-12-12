@@ -1,0 +1,124 @@
+$primary: #03A9F4;
+
+.app-modal {
+  padding: 0 24px 20px 24px;
+  
+  .close_btn {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+.modal__header {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: $primary;
+
+  .description {
+    text-align: center;
+    font-size: 14px;
+    line-height: 16px;
+    margin-top: 16px;
+    color: #000;
+  }
+}
+
+.error_txt{
+  width: 100%;
+  text-align: center;
+  color: #F44336;
+  margin-top: 0;
+  margin-bottom: 36px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  ::ng-deep .mat-form-field{
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+  ::ng-deep .mat-form-field.mat-focused .mat-form-field-outline {
+    color: $primary !important;
+  }
+
+  ::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+    color: $primary !important;
+  }
+
+  ::ng-deep .mat-list-option[aria-selected="true"] {
+    background: $primary;
+  }
+
+  ::ng-deep .mat-radio-button {
+    margin-left: 20px !important;
+  }
+
+  ::ng-deep .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element {
+    background-color: $primary !important;
+  }
+
+  ::ng-deep .mat-radio-button.mat-accent .mat-radio-inner-circle {
+    background-color: $primary !important;
+    /*inner circle color change*/
+  }
+
+  ::ng-deep.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+    border-color: $primary !important;
+    /*outer ring color change*/
+  }
+
+  .mat-radio-group {
+    margin: 10px 0 16px 0;
+  }
+}
+
+.modal-footer {
+  padding: 0;
+  margin: 24px 0;
+  width: 100% !important;
+  display: flex;
+  align-items: stretch;
+  border: none;
+  color: $primary;
+
+  .mat-stroked-button {
+    color: $primary;
+  }
+
+  .mat-flat-button {
+    background-color: $primary;
+  }
+
+  .mat-flat-button.mat-primary.mat-button-disabled{
+    background-color: rgba(0, 0, 0, .12);
+  }
+
+  button {
+    margin: 0;
+    flex: 1;
+  }
+
+  button:last-child {
+    margin-left: 16px;
+  }
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
