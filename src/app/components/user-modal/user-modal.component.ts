@@ -14,7 +14,7 @@ export class UserModalComponent implements OnInit {
    userForm = this.fb.group({
     id:     [null],
     name:   [null, [Validators.required]],
-    role:   [null, [Validators.required]],
+    role_id:   [null, [Validators.required]],
     status: [null, [Validators.required]],
   });
 
@@ -29,7 +29,7 @@ export class UserModalComponent implements OnInit {
       name: string,
       status: boolean,
       role_id: Role
-    }, private roleService: UserService ) { }
+    }, private userService: UserService ) { }
 
   ngOnInit(): void {
     this.loadData();
@@ -37,17 +37,38 @@ export class UserModalComponent implements OnInit {
 
   loadData(){
 
-    console.log(this.data);
-    
      if(this.data !== null){
       this.userForm.get(['id'])?.setValue(this.data.id);
       this.userForm.get(['name'])?.setValue(this.data.name);
-      this.userForm.get(['role'])?.setValue(this.data.role_id);
+      this.userForm.get(['role_id'])?.setValue(this.data.role_id);
       this.userForm.get(['status'])?.setValue(this.data.status);
     }
-    this.roleService.getRoles().subscribe( (response: any) => {this.roles = response})
+    this.userService.getRoles().subscribe( (response: any) => {this.roles = response})
   }
 
+  createUser(){
+    this.userService.createUser(this.userForm.value).subscribe( (response) => {
+      console.log(response);
+      this.dialogRef.close(true);
+    })
+  }
 
+   updateUser(){
+    this.userService.updateUser(this.userForm.value).subscribe( (response) => {
+      console.log(response);
+      this.dialogRef.close(true);
+    })
+  }
+
+   deleteUser(){
+    this.userService.deleteUser(this.data).subscribe( (response) => {
+      console.log(response);
+      this.dialogRef.close(true);
+    })
+  }
+
+   cancelar(): void{
+    this.dialogRef.close(false);
+  }
 }
 
