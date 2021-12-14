@@ -26,7 +26,7 @@
          <mat-option [value]="null">
            Rol del usuario
          </mat-option>
-         <mat-option *ngFor="let rol of roles"   (value)="rol.id">
+         <mat-option *ngFor="let rol of roles"   [value]="rol.id">
            {{rol.value}}
          </mat-option>
        </mat-select>
