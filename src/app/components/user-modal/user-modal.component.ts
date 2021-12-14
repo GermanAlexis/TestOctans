@@ -14,7 +14,7 @@ export class UserModalComponent implements OnInit {
     id:     [null],
     name: [null, [Validators.required]],
     role:    [null, [Validators.required]],
-    active: [null, [Validators.required]],
+    status: [null, [Validators.required]],
   });
 
   roles: Role[] = [];
@@ -26,7 +26,7 @@ export class UserModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: {
       id: number,
       name: string,
-      active: string,
+      status: boolean,
       role_id: Role
     }) { }
 

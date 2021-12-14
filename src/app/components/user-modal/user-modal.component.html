@@ -27,17 +27,17 @@
            Rol del usuario
          </mat-option>
          <mat-option *ngFor="let rol of roles" [value]="rol.id">
-           {{rol.nombre}}
+           {{rol.value}}
          </mat-option>
        </mat-select>
      </mat-form-field>
 
-     <mat-radio-group aria-label="Activo" formControlName="activo">
+     <mat-radio-group aria-label="Activo" formControlName="status">
        <mat-label>
          <span style="font-weight: bold;">Usuario activo</span>
        </mat-label>
-       <mat-radio-button value="S">Si</mat-radio-button>
-       <mat-radio-button value="N">No</mat-radio-button>
+       <mat-radio-button value=true>Si</mat-radio-button>
+       <mat-radio-button value=false>No</mat-radio-button>
      </mat-radio-group>
   </form>
 

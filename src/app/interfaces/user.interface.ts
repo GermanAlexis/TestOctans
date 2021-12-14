@@ -1,19 +1,19 @@
 export interface Role {
        id: number;
-       nombre: string;
+       value: string;
 }
 export interface IUser {
     id?: number;
-    nombre?: string;
-    activo?: string;
-    rol_id?: Role;
+    name?: string;
+    status?: boolean;
+    role_id?: Role;
 }
 
 export class User implements IUser {
     constructor(
         public id?: number,
-        public nombre?: string,
-        public activo?: string,
-        public rol_id?: Role,
+        public name?: string,
+        public status?: boolean,
+        public role_id?: Role,
     ) {}
 }

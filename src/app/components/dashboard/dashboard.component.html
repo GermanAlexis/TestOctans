@@ -35,11 +35,11 @@
         <mat-spinner></mat-spinner>
       </div>
     </ng-container>
-    <ng-container *ngIf="!loadingUsers && users > 0">
+    <ng-container *ngIf="!loadingUsers && users.length === 0">
       <p>No se encontraron usuarios registrados</p>
     </ng-container>
 
-    <div class="users_table" *ngIf="!loadingUsers && users > 0">
+    <div class="users_table" *ngIf="!loadingUsers && users.length > 0">
       <table mat-table [dataSource]="dataSource">
 
         <ng-container matColumnDef="id">
@@ -49,18 +49,18 @@
 
         <ng-container matColumnDef="nombre">
           <th style="width: 40%;" mat-header-cell *matHeaderCellDef> Nombre </th>
-          <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
         </ng-container>
 
         <ng-container matColumnDef="activo">
           <th style="width: 10%;" mat-header-cell *matHeaderCellDef> Activo </th>
           <td mat-cell *matCellDef="let element">
-            <ng-container *ngIf="element.activo === 'S'">
+            <ng-container *ngIf="element.status">
               <svg height="30" width="30" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="30" cy="50" r="30" fill="#4CAF50" />
               </svg>
             </ng-container>
-            <ng-container *ngIf="element.activo !== 'S'">
+            <ng-container *ngIf="!element.status">
               <svg height="30" width="30" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="30" cy="50" r="30" fill="#F44336" />
               </svg>
@@ -70,14 +70,19 @@
 
         <ng-container matColumnDef="rol_id">
           <th style="width: 30%;" mat-header-cell *matHeaderCellDef> Rol </th>
-          <td mat-cell *matCellDef="let element"> {{element.rol_id.nombre}} </td>
+          <td mat-cell *matCellDef="let element"> {{element.id_role}} </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row (click)="openModalUser(row)" *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
 
-      <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+      <mat-paginator [pageSizeOptions]="pageSizeOptions" 
+                     [length]="paginator_length"
+                     [pageSize]="pageSize"
+                     [pageIndex]="pageIndex"
+                     (page)="pages($event)"
+                      showFirstLastButtons >
       </mat-paginator>
     </div>
   </mat-card>
