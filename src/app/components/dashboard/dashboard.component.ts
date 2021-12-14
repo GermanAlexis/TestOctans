@@ -41,7 +41,6 @@ export class DashboardComponent implements OnInit {
    getUser(){
     this.loadingUsers = true
     this.userService.getUsers().subscribe((response: any) => {
-      console.log(this.dataSource);
       this.users = response
       this.dataSource = response
       this.usersNames = this.users.map(user => user.name?.toLowerCase())
@@ -86,9 +85,7 @@ export class DashboardComponent implements OnInit {
   openModalUser(open: any) {
     let dialogRef = this.dialog.open(UserModalComponent, {
       data: open,
-      
     });
-      console.log(open);
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){

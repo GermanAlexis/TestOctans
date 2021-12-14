@@ -11,4 +11,8 @@ export class UserService {
   getUsers(){
     return this.http.get('http://localhost:3000/user');
   }
+
+  getRoles(){
+    return this.http.get('http://localhost:3000/roles');
+  }
 }

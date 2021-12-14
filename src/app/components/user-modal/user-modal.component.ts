@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Role } from 'src/app/interfaces/user.interface';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-user-modal',
@@ -28,12 +29,25 @@ export class UserModalComponent implements OnInit {
       name: string,
       status: boolean,
       role_id: Role
-    }) { }
+    }, private roleService: UserService ) { }
 
   ngOnInit(): void {
+    this.loadData();
+  }
+
+  loadData(){
+
     console.log(this.data);
     
+     if(this.data !== null){
+      this.userForm.get(['id'])?.setValue(this.data.id);
+      this.userForm.get(['name'])?.setValue(this.data.name);
+      this.userForm.get(['role'])?.setValue(this.data.role_id);
+      this.userForm.get(['status'])?.setValue(this.data.status);
+    }
+    this.roleService.getRoles().subscribe( (response: any) => {this.roles = response})
   }
+
 
 }
 
