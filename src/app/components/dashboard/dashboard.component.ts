@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { IUser } from 'src/app/interfaces/user.interface';
+import { IUser, Role } from 'src/app/interfaces/user.interface';
 import { UserService } from 'src/app/services/user.service';
 import { UserModalComponent } from '../user-modal/user-modal.component';
-import { map, startWith } from 'rxjs/operators';
+import { map, startWith, switchMap } from 'rxjs/operators';
 import { Form, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -27,9 +28,10 @@ export class DashboardComponent implements OnInit {
   pageSizeOptions = [5, 10, 25];
 
   usersNames: any;
-  filteredOptions: any;
+  roles: Role[] = []
+  filteredOptions!: Observable<string[]>;
   searchedUser = this.fb.group({
-    nameUser: [null, [Validators.minLength(3)]]
+    nameUser: ['', [Validators.minLength(3)]]
   })
   constructor(public dialog: MatDialog, private userService: UserService, private fb: FormBuilder) { }
 
@@ -40,18 +42,29 @@ export class DashboardComponent implements OnInit {
 
    getUser(){
     this.loadingUsers = true
-    this.userService.getUsers().subscribe((response: any) => {
-      this.users = response
-      this.dataSource = response
+    this.userService.getRoles().pipe(
+      switchMap( roles => this.userService.getUsers().pipe( 
+        map(users => ({ roles, users }))
+      ) )
+
+    ).subscribe((response: any) => {
+       !response?.roles ? this.roles = [] : this.roles = response?.roles
+       !response?.users ? this.users = [] : this.users = response?.users
+
+      this.dataSource = new  MatTableDataSource<IUser>(this.users)
       this.usersNames = this.users.map(user => user.name?.toLowerCase())
       this.filteredUsers = this.users
-      this.filteredOptions = this.searchedUser.valueChanges.pipe(
+      this.filteredOptions = this.searchedUser.controls['nameUser'].valueChanges.pipe(
       startWith(''),
-      map(value => this._filter(value)),
+      map(value =>  this._filter(value)),
     );
       this.paginator_length = response.length
       this.loadingUsers = false
     })
+  }
+  getRole(id: number): string {
+    let role = this.roles.find( rol => rol.id == id)
+    return role != undefined ? role.value : 'No exits'
   }
 
   pages(event: PageEvent){
@@ -61,8 +74,8 @@ export class DashboardComponent implements OnInit {
   }
 
  _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.usersNames.filter((username: string) => username.toLowerCase().includes(filterValue));
+    let filterValue = value.toLowerCase() ? value: '';
+     return this.usersNames.filter((username: string, index: number) => index <= 4 && username.includes(filterValue)  );
   }
 
    cleanSearchBar(): void{
@@ -71,8 +84,8 @@ export class DashboardComponent implements OnInit {
   }
 
   searchUser(option: any):void {
-    let searchTerm = option !== null && option !== undefined ? option.value : this.searchedUser.value
-    if(searchTerm === "" || searchTerm === null){
+    let searchTerm = option !== null && option !== undefined ? option.value : this.searchedUser.controls['nameUser'].value
+    if(!searchTerm){
       this.filteredUsers = this.users;
     }else{
        this.filteredUsers = this.users.filter(user => user.name?.toLowerCase().includes(searchTerm.toLowerCase()))

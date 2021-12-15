@@ -48,21 +48,18 @@ export class UserModalComponent implements OnInit {
 
   createUser(){
     this.userService.createUser(this.userForm.value).subscribe( (response) => {
-      console.log(response);
       this.dialogRef.close(true);
     })
   }
 
    updateUser(){
     this.userService.updateUser(this.userForm.value).subscribe( (response) => {
-      console.log(response);
       this.dialogRef.close(true);
     })
   }
 
    deleteUser(){
     this.userService.deleteUser(this.data).subscribe( (response) => {
-      console.log(response);
       this.dialogRef.close(true);
     })
   }
